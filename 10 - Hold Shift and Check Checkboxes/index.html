@@ -99,12 +99,14 @@
   </div>
 
 <script>
-  var shift = false;
-  const checkboxes = Array.from(document.querySelectorAll('input'));
-  var firstCheckbox = null;
-  console.log(checkboxes);
+  //var shift = false;
+  //const checkboxes = Array.from(document.querySelectorAll('input'));
+  const checkboxes = document.querySelectorAll('.inbox input[type="checkbox"]');
+  //var firstCheckbox = null;
+  let lastChecked;
+  //console.log(checkboxes);
 
-  function toggleHandler(e){
+  /*function toggleHandler(e){
     if (!shift)
       return; // Exit if shift not enabled
 
@@ -133,13 +135,39 @@
     for (var i = firstCheckbox + 1 ; i < currentCheckbox; i++) {
         checkboxes[i].checked = !checkboxes[i].checked;
     }
-    console.log('end');
     firstCheckbox = null; //reset it
+  };*/
+
+  function handleCheck(e) {
+    // check if they had the shift key down
+    // AND check that they are checking it, not unchecking it (we don't care if they uncheckit)
+    let inBetween = false;
+    if (e.shiftKey && this.checked && lastChecked) {
+      // go ahead and do stuff
+
+      // loop over all checkboxes
+      checkboxes.forEach(checkbox => {
+        console.log(checkbox);
+        if(checkbox === this || checkbox === lastChecked) {
+          inBetween = !inBetween;
+          console.log('start/end');
+        }
+
+        if (inBetween) {
+          checkbox.checked = true;
+        }
+      });
+      lastChecked = null;
+    } else {
+      lastChecked = this;
+    }
+
   };
 
-  document.querySelectorAll('input').forEach(item => item.addEventListener('change', toggleHandler));
+  //document.querySelectorAll('input').forEach(item => item.addEventListener('change', toggleHandler));
+  checkboxes.forEach(checkbox => checkbox.addEventListener('click', handleCheck));
 
-  document.addEventListener('keydown', e => {
+  /*document.addEventListener('keydown', e => {
     if (e.keyCode === 16) {
       shift = true;
       console.log('keydown: ' + shift);
@@ -150,7 +178,7 @@
       shift = false;
       console.log('keyup: ' + shift);
     }
-  });
+  });*/
 </script>
 </body>
 </html>
