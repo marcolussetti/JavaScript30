@@ -18,28 +18,84 @@
     }
 
     // Regular
+    console.log('hello');
 
     // Interpolated
+    console.log('Hello I am a %s string!', 'yo');
+    const a_var = 'var';
+    console.log(`Hello I am ${a_var}`);
 
     // Styled
+    console.log('%c I am some great text', 'font-size:50px; background:red; text-shadow: 10px 10px 0 blue');
 
     // warning!
+    console.warn('OH NO!'); // Gives stacktrace
 
     // Error :|
+    console.error('OH NOOO!'); // Gives stracktrace
 
     // Info
+    console.info('Corocodiles eat 3-4 people per year');
 
     // Testing
+    const p = document.querySelector('p');
+    console.assert(1 === 1, 'This is wrong'); //Prints only if false
+    console.assert(p.classList.contains('ouch'), 'This is wrong'); 
 
     // clearing
+    //console.clear();
 
     // Viewing DOM Elements
+    console.log(p);
+    console.dir(p); // lets you open up the class list and the tree thing
 
     // Grouping together
+    dogs.forEach(dog => console.log(`This is ${dog.name}`));
+    dogs.forEach(dog => {
+      console.log(`This is ${dog.name}`);
+      console.log(`${dog.name} is ${dog.age} years old`);
+      console.log(`${dog.name} is ${dog.age * 7} dog years old`);
+    });
+
+    dogs.forEach(dog => {
+      console.group(`${dog.name}`);
+      console.log(`This is ${dog.name}`);
+      console.log(`${dog.name} is ${dog.age} years old`);
+      console.log(`${dog.name} is ${dog.age * 7} dog years old`);
+      console.groupEnd(`${dog.name}`); // End with same string
+    });
+
+    dogs.forEach(dog => { // same as before but collasped
+      console.groupCollapsed(`${dog.name}`);
+      console.log(`This is ${dog.name}`);
+      console.log(`${dog.name} is ${dog.age} years old`);
+      console.log(`${dog.name} is ${dog.age * 7} dog years old`);
+      console.groupEnd(`${dog.name}`); // End with same string
+    });
 
     // counting
+    console.count('West');
+    console.count('West');
+    console.count('West');
+    console.count('West');
+    console.count('Steve');
+    console.count('West');
+    console.count('Steve');
+    console.count('West');
+    console.count('West');
 
     // timing
+    // Just for a quick idea of how long things are taking
+    console.time('fetching data');
+    fetch('https://api.github.com/users/marcolussetti')
+      .then(data => data.json())
+      .then(data => {
+        console.timeEnd('fetching data'); // same string as start
+        console.log(data);
+      });
+
+    // Table. assumes all have same property. Gets printed sooner than timing because of promises.
+    console.table(dogs);
 
   </script>
 </body>
