@@ -99,7 +99,58 @@
   </div>
 
 <script>
-  
+  var shift = false;
+  const checkboxes = Array.from(document.querySelectorAll('input'));
+  var firstCheckbox = null;
+  console.log(checkboxes);
+
+  function toggleHandler(e){
+    if (!shift)
+      return; // Exit if shift not enabled
+
+    const currentCheckbox = checkboxes.indexOf(this);
+    console.log(`First: ${firstCheckbox}. Current: ${currentCheckbox}.`);
+    // If first element, simply save the value and return
+    if (!firstCheckbox) {
+      firstCheckbox = currentCheckbox;
+      return;
+    }
+
+    // swap if needed
+    if (currentCheckbox < firstCheckbox) {
+      const temp = firstCheckbox;
+      firstCheckbox = currentCheckbox;
+      currentCheckbox = temp;
+    }
+
+    // If no inner elements, don't bother
+    if (currentCheckbox == firstCheckbox || firstCheckbox + 1 == currentCheckbox) {
+      return;
+    }
+
+    console.log("first: " + firstCheckbox + "current:" + currentCheckbox);
+
+    for (var i = firstCheckbox + 1 ; i < currentCheckbox; i++) {
+        checkboxes[i].checked = !checkboxes[i].checked;
+    }
+    console.log('end');
+    firstCheckbox = null; //reset it
+  };
+
+  document.querySelectorAll('input').forEach(item => item.addEventListener('change', toggleHandler));
+
+  document.addEventListener('keydown', e => {
+    if (e.keyCode === 16) {
+      shift = true;
+      console.log('keydown: ' + shift);
+    }
+  });
+  document.addEventListener('keyup', e => {
+    if (e.keyCode === 16) {
+      shift = false;
+      console.log('keyup: ' + shift);
+    }
+  });
 </script>
 </body>
 </html>
