@@ -22,6 +22,10 @@
     <form class="add-items">
       <input type="text" name="item" placeholder="Item Name" required>
       <input type="submit" value="+ Add Item">
+      <br>
+      <input type="button" id="checkAll" value="Check all">
+      <input type="button" id="uncheckAll" value="Uncheck all">
+      <input type="button" id="deleteAll" value="Delete all">
     </form>
   </div>
 
@@ -75,6 +79,32 @@
   
 
   populateList(items, itemsList);
+
+  document.querySelector('#checkAll').addEventListener("click", () => {
+    items.forEach(item => {
+      item.done = true;
+    });
+    localStorage.setItem('plates', JSON.stringify(items));
+    populateList(items, itemsList);
+  });
+
+  document.querySelector('#uncheckAll').addEventListener("click", () => {
+    items.forEach(item => {
+      item.done = false;
+    });
+    localStorage.setItem('plates', JSON.stringify(items));
+    populateList(items, itemsList);
+  });
+
+  document.querySelector('#deleteAll').addEventListener("click", () => {
+    // Let's do some fun fakey python -- probably a silly idea but why not!
+    (Array.from(Array(items.length).keys())).forEach(() => {
+      items.pop();
+    });
+    console.log(items.length);
+    localStorage.setItem('plates', JSON.stringify(items));
+    populateList(items, itemsList);
+  });
 
 </script>
 
